@@ -23,30 +23,42 @@ string list_ways(vector<int> coins,int n,int amount)
 {
 	// setup tuples of coins
 	vector<vector<int> > coin_table;
-	for(int i=0;i<=n;i++){
-		coin_table.push_back(vector<int>());
-	}
+	// for(int i=0;i<=n;i++){
+	// 	coin_table.push_back(vector<int>());
+	// }
 	int table[amount+1]; //DP table
 	memset(table,0,sizeof(table));
 	table[0]=1;
 	//j be the sub-amounts
 	for(int i=1;i<=n;i++){
+		vector<int> tmp_vec;
 		for(int j=1;j<=amount;j++){
-			// cout<<table[j]<<" ";
 			if(j>=coins[i]){
 				table[j]+=table[j-coins[i]];
-				// I have not found a way to simply pull the tuples of coins from this loop
-				if(vec_sum(coin_table[i])<amount){
-					coin_table[i].push_back(coins[i]);
+				tmp_vec.push_back(coins[i]);
+			}
+		}
+		coin_table.push_back(tmp_vec);
+		// add others
+		vector<int> extra_vec;
+		for(int k1=0;k1<tmp_vec.size();k1++){
+			for(int k2=1;k2<n;k2++){
+				if(coins[k2]%tmp_vec[k1]==0) {
+					for(int k3=0;k3<coins[k2]/tmp_vec[k1];k3++)
+					extra_vec.push_back(coins[k2]);
 				}
 			}
 		}
-		cout<<format_vec(coins)<<endl;
+		coin_table.push_back(extra_vec);
 	}
+	vector<vector<int> > checked_coin_table;
+	for(vector<vector<int> >::const_iterator v=coin_table.begin();v!=coin_table.end();v++){
+		if(vec_sum(*v)==amount)
+			checked_coin_table.push_back(*v);
+	}
+	// return format_vec_2d(checked_coin_table);
 	return format_vec_2d(coin_table);
 }
-
-
 
 int num_ways(vector<int> coins,int n,int amount)
 {
@@ -85,8 +97,8 @@ int main()
 	cout<<"Enter total amount\n";
 	cin>>amount;
 	cout<<"Number of ways to sum the amount is: "<<num_ways(coins,n,amount)<<endl;
-	// note: uncomment this line to work on the function that lists sets of coins out
-	// cout<<"List: "<<endl<<list_ways(coins,n,amount)<<endl;
+	// note: uncomment the next line to work on the function that lists sets of coins out
+	cout<<"List: "<<endl<<list_ways(coins,n,amount)<<endl;
 
 	return 0;
 }
