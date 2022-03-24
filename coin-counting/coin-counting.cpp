@@ -19,6 +19,7 @@ string format_vec_2d(const vector<vector<int> > &v){stringstream stream;for(vect
 string format_vec(const vector<int> &v){stringstream stream;for(vector<int>::const_iterator a=v.begin();a!=v.end();a++){stream<<" "<<*a;}return stream.str();}
 
 // note: does not work (provides invalid output)
+// update: this thread pointed out that there is no way to do this in less than polynomial time (https://stackoverflow.com/questions/1106929/how-to-find-all-combinations-of-coins-when-given-some-dollar-value#comment926584_1107320)
 string list_ways(vector<int> coins,int n,int amount)
 {
 	// setup tuples of coins
