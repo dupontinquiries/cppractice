@@ -18,33 +18,6 @@ string format_vec_2d(const vector<vector<int> > &v){stringstream stream;for(vect
 // formats a vec
 string format_vec(const vector<int> &v){stringstream stream;for(vector<int>::const_iterator a=v.begin();a!=v.end();a++){stream<<" "<<*a;}return stream.str();}
 
-// // lists tuples of coins combinations
-// string list_ways(std::vector<int> coins,int n,int amount)
-// {
-// 	// stringstream stream;
-// 	vector<vector<int> > table;
-//
-// 	// int table[amount+1]; //DP table
-// 	// memset(table,0,sizeof(table));
-// 	for (int i=0;i<=n;i++)
-// 	{
-// 		// cout<<"bp"<<endl;
-// 		vector<int> tmp;
-// 		tmp.push_back(0);
-// 		table.push_back(tmp);
-// 	}
-//
-// 	for (int i=1;i<=n;i++){
-// 			for (int j=1;j<=amount;j++){
-// 				if(j>=vec_sum(table[i])){
-// 					table[j].push_back(vec_sum(table[j-coins[i]]));
-// 				}
-// 			}
-// 	}
-// 	return format_vec_2d(table);
-// 	// return "";
-// }
-
 // note: does not work (provides invalid output)
 string list_ways(vector<int> coins,int n,int amount)
 {
@@ -73,6 +46,8 @@ string list_ways(vector<int> coins,int n,int amount)
 	return format_vec_2d(coin_table);
 }
 
+
+
 int num_ways(vector<int> coins,int n,int amount)
 {
 	int table[amount+1]; //DP table
@@ -81,15 +56,12 @@ int num_ways(vector<int> coins,int n,int amount)
 	//j be the sub-amounts
 	for(int i=1;i<=n;i++){
 		for(int j=1;j<=amount;j++){
-			// cout<<table[j]<<" ";
 			if(j>=coins[i]){
 				table[j]+=table[j-coins[i]];
 			}
 		}
-		// cout<<endl;
 	}
 	return table[amount];
-	// cout<<table[amount]<<endl; //final result
 }
 
 int main()
@@ -113,7 +85,8 @@ int main()
 	cout<<"Enter total amount\n";
 	cin>>amount;
 	cout<<"Number of ways to sum the amount is: "<<num_ways(coins,n,amount)<<endl;
-	cout<<"List: "<<endl<<list_ways(coins,n,amount)<<endl;
+	// note: uncomment this line to work on the function that lists sets of coins out
+	// cout<<"List: "<<endl<<list_ways(coins,n,amount)<<endl;
 
 	return 0;
 }
